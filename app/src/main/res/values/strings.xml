@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Learn words</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error">Error</string>
+    <string name="reload_button">reload</string>
+    <string name="empty_server_response_on_success">No responce</string>
+    <string name="undefined_error">Undef error</string>
 </resources>
