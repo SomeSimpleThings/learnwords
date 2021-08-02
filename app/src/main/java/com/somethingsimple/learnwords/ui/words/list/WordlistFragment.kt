@@ -1,21 +1,18 @@
 package com.somethingsimple.learnwords.ui.words.list
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.somethingsimple.learnwords.LearnWordsApp
 import com.somethingsimple.learnwords.R
 import com.somethingsimple.learnwords.data.WordlistState
 import com.somethingsimple.learnwords.data.vo.Word
 import com.somethingsimple.learnwords.databinding.FragmentWordlistBinding
 import com.somethingsimple.learnwords.ui.base.BaseFragment
 import com.somethingsimple.learnwords.ui.words.WordsViewModel
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class WordlistFragment : BaseFragment<WordlistState>() {
@@ -23,14 +20,7 @@ class WordlistFragment : BaseFragment<WordlistState>() {
     private var wordAdapter: WordAdapter? = null
     var binding: FragmentWordlistBinding? = null
 
-    @Inject
-    internal lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var model: WordsViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        model = viewModelFactory.create(WordsViewModel::class.java)
-    }
+    val model: WordsViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,10 +44,6 @@ class WordlistFragment : BaseFragment<WordlistState>() {
         model.subscribe().observe(viewLifecycleOwner, { renderData(it) })
     }
 
-    override fun onAttach(context: Context) {
-        (context.applicationContext as LearnWordsApp).appComponent.inject(this)
-        super.onAttach(context)
-    }
 
     companion object {
 

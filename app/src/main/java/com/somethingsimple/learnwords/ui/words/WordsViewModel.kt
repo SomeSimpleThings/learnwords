@@ -5,56 +5,45 @@ import com.somethingsimple.learnwords.data.WordlistState
 import com.somethingsimple.learnwords.data.vo.Meaning
 import com.somethingsimple.learnwords.data.vo.Word
 import com.somethingsimple.learnwords.vm.BaseViewModel
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.observers.DisposableObserver
-import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class WordsViewModel
-@Inject constructor(
-    private val interactor: WordsInteractor
-) : BaseViewModel<WordlistState>() {
+class WordsViewModel(private val interactor: WordsInteractor) :
+    BaseViewModel<WordlistState>() {
 
-    private var appState: WordlistState? = null
+    private val liveDataForViewToObserve: LiveData<WordlistState> = _mutableLiveData
 
     fun subscribe(): LiveData<WordlistState> {
         return liveDataForViewToObserve
     }
 
     override fun getData(word: String, isOnline: Boolean) {
-        compositeDisposable.add(
-            interactor.getData(word, isOnline)
-                .subscribeOn(schedulers.io())
-                .observeOn(schedulers.ui())
-                .doOnSubscribe(doOnSubscribe())
-                .subscribeWith(getObserver())
-        )
+        _mutableLiveData.value = WordlistState.Loading(null)
+        cancelJob()
+        viewModelCoroutineScope.launch { startInteractor(word, isOnline) }
     }
 
-    private fun doOnSubscribe(): (Disposable) -> Unit =
-        { liveDataForViewToObserve.value = WordlistState.Loading(null) }
-
-    private fun getObserver(): DisposableObserver<WordlistState> {
-        return object : DisposableObserver<WordlistState>() {
-
-            override fun onNext(state: WordlistState) {
-                appState = parseSearchResults(state)
-                liveDataForViewToObserve.value = appState
-            }
-
-            override fun onError(e: Throwable) {
-                liveDataForViewToObserve.value = WordlistState.Error(e)
-            }
-
-            override fun onComplete() {
-            }
+    //Doesn't have to use withContext for Retrofit call if you use .addCallAdapterFactory(CoroutineCallAdapterFactory()). The same goes for Room
+    private suspend fun startInteractor(word: String, isOnline: Boolean) =
+        withContext(Dispatchers.IO) {
+            _mutableLiveData.postValue(parseSearchResults(interactor.getData(word, isOnline)))
         }
+
+    override fun handleError(error: Throwable) {
+        _mutableLiveData.postValue(WordlistState.Error(error))
     }
 
-    fun parseSearchResults(state: WordlistState): WordlistState {
+    override fun onCleared() {
+        _mutableLiveData.value = WordlistState.Success(null)
+        super.onCleared()
+    }
+
+    fun parseSearchResults(data: WordlistState): WordlistState {
         val newSearchResults = arrayListOf<Word>()
-        when (state) {
+        when (data) {
             is WordlistState.Success -> {
-                val searchResults = state.data
+                val searchResults = data.data
                 if (!searchResults.isNullOrEmpty()) {
                     for (searchResult in searchResults) {
                         parseResult(searchResult, newSearchResults)
@@ -79,7 +68,7 @@ class WordsViewModel
                             null,
                             null,
                             null,
-                            meaning.translation
+                            meaning.translation,
                         )
                     )
                 }
@@ -89,4 +78,17 @@ class WordsViewModel
             }
         }
     }
+
+    fun convertMeaningsToString(meanings: List<Meaning>): String {
+        var meaningsSeparatedByComma = String()
+        for ((index, meaning) in meanings.withIndex()) {
+            meaningsSeparatedByComma += if (index + 1 != meanings.size) {
+                String.format("%s%s", meaning.translation?.text, ", ")
+            } else {
+                meaning.translation?.text
+            }
+        }
+        return meaningsSeparatedByComma
+    }
 }
+

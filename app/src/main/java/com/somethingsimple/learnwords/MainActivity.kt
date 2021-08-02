@@ -6,7 +6,6 @@ import com.somethingsimple.learnwords.ui.words.list.WordlistFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        (applicationContext as LearnWordsApp).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportFragmentManager
