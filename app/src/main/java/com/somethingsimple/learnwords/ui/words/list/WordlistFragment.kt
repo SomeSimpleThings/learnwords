@@ -1,18 +1,21 @@
 package com.somethingsimple.learnwords.ui.words.list
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.somethingsimple.learnwords.LearnWordsApp
 import com.somethingsimple.learnwords.R
 import com.somethingsimple.learnwords.data.WordlistState
 import com.somethingsimple.learnwords.data.vo.Word
 import com.somethingsimple.learnwords.databinding.FragmentWordlistBinding
-import com.somethingsimple.learnwords.presenter.Presenter
 import com.somethingsimple.learnwords.ui.base.BaseFragment
-import com.somethingsimple.learnwords.ui.words.WordsPresenter
+import com.somethingsimple.learnwords.ui.words.WordsViewModel
+import javax.inject.Inject
 
 
 class WordlistFragment : BaseFragment<WordlistState>() {
@@ -20,8 +23,13 @@ class WordlistFragment : BaseFragment<WordlistState>() {
     private var wordAdapter: WordAdapter? = null
     var binding: FragmentWordlistBinding? = null
 
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var model: WordsViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        model = viewModelFactory.create(WordsViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -36,11 +44,20 @@ class WordlistFragment : BaseFragment<WordlistState>() {
         binding.apply {
             searchButton.setOnClickListener {
                 editTextSearch.text.toString()
-                presenter.getData(editTextSearch.text.toString(), true)
+                model.getData(editTextSearch.text.toString(), true)
             }
         }
     }.root
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        model.subscribe().observe(viewLifecycleOwner, { renderData(it) })
+    }
+
+    override fun onAttach(context: Context) {
+        (context.applicationContext as LearnWordsApp).appComponent.inject(this)
+        super.onAttach(context)
+    }
 
     companion object {
 
@@ -49,10 +66,6 @@ class WordlistFragment : BaseFragment<WordlistState>() {
             WordlistFragment()
 
     }
-
-    override fun createPresenter()
-            : Presenter<WordlistState, com.somethingsimple.learnwords.ui.base.View> =
-        WordsPresenter()
 
     override fun renderData(appState: WordlistState) {
         when (appState) {
@@ -109,8 +122,7 @@ class WordlistFragment : BaseFragment<WordlistState>() {
             errorTextview.text = error ?: getString(R.string.undefined_error)
             reloadButton.setOnClickListener {
             }
-
-            presenter.getData("hi", true)
+            model.getData("hi", true)
         }
     }
 
