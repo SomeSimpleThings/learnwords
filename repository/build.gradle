@@ -1,0 +1,31 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+
+}
+
+dependencies {
+    implementation project(Modules.model)
+
+    //coroutines
+    implementation Coroutines.coroutinesCore
+
+    //retrofit
+    implementation Retrofit.retrofit
+    implementation Retrofit.gsonConverter
+    implementation Retrofit.retrofitCoroutines
+    //OkHTTP
+    implementation(platform(OkHttp.okHttpBom))
+    implementation OkHttp.okhttp
+    implementation OkHttp.loggingInterceptor
+    //room
+    implementation Room.roomRuntime
+    kapt(Room.roomCompiler)
+    implementation Room.roomKtx
+
+    testImplementation TestImpl.junit
+    androidTestImplementation TestImpl.runner
+    androidTestImplementation TestImpl.espresso
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+}

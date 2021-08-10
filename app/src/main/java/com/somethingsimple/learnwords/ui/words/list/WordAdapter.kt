@@ -3,7 +3,7 @@ package com.somethingsimple.learnwords.ui.words.list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.somethingsimple.learnwords.data.vo.Word
+import com.somethingsimple.model.vo.Word
 import com.somethingsimple.learnwords.databinding.WordItemBinding
 
 class WordAdapter(
@@ -29,7 +29,7 @@ class WordAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data.get(position))
+        holder.bind(data[position])
     }
 
     override fun getItemCount(): Int {

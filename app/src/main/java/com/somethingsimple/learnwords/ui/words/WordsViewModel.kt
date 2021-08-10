@@ -1,10 +1,10 @@
 package com.somethingsimple.learnwords.ui.words
 
 import androidx.lifecycle.LiveData
-import com.somethingsimple.learnwords.data.WordlistState
-import com.somethingsimple.learnwords.data.vo.Meaning
-import com.somethingsimple.learnwords.data.vo.Word
-import com.somethingsimple.learnwords.vm.BaseViewModel
+import com.somethingsimple.core.vm.BaseViewModel
+import com.somethingsimple.model.WordlistState
+import com.somethingsimple.model.vo.Meaning
+import com.somethingsimple.model.vo.Word
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -12,7 +12,8 @@ import kotlinx.coroutines.withContext
 class WordsViewModel(private val interactor: WordsInteractor) :
     BaseViewModel<WordlistState>() {
 
-    private val liveDataForViewToObserve: LiveData<WordlistState> = _mutableLiveData
+    private val liveDataForViewToObserve: LiveData<WordlistState> =
+        _mutableLiveData
 
     fun subscribe(): LiveData<WordlistState> {
         return liveDataForViewToObserve
@@ -58,8 +59,8 @@ class WordsViewModel(private val interactor: WordsInteractor) :
     private fun parseResult(dataModel: Word, newDataModels: ArrayList<Word>) {
         if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
             val newMeanings = arrayListOf<Meaning>()
-            for (meaning in dataModel.meanings) {
-                if (meaning.translation != null && !meaning.translation.text.isNullOrBlank()) {
+            for (meaning in dataModel.meanings!!) {
+                if (meaning.translation != null && !meaning.translation!!.text.isNullOrBlank()) {
                     newMeanings.add(
                         Meaning(
                             0,
