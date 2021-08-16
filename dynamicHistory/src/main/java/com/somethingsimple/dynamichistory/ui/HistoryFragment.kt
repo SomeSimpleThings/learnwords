@@ -15,7 +15,7 @@ class HistoryFragment : BaseFragment<WordlistState>() {
     var binding: FragmentHistoryBinding? = null
     private var historyAdapter: HistoryAdapter? = null
 
-//    val model: HistoryViewModel by viewModel()
+    val model: HistoryViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,8 +44,8 @@ class HistoryFragment : BaseFragment<WordlistState>() {
                 adapter = historyAdapter
             }
         }
-//        model.getData("", false)
-//        model.subscribe().observe(viewLifecycleOwner, { renderData(it) })
+        model.getData("", false)
+        model.subscribe().observe(viewLifecycleOwner, { renderData(it) })
 
     }
 

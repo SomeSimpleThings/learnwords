@@ -35,8 +35,8 @@ val mainScreen = module {
     factory { WordsInteractor(get(named(NAME_REMOTE)), get(named(NAME_LOCAL))) }
 }
 
-val historyScreen = module {
-    factory { HistoryViewModel(get()) }
-    factory { HistoryInteractor(get(named(NAME_LOCAL))) }
-}
+//val historyScreen = module {
+//    factory { HistoryViewModel(get()) }
+//    factory { HistoryInteractor(get(named(NAME_LOCAL))) }
+//}
 
