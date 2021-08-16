@@ -1,2 +1,6 @@
 rootProject.name = "Learn words"
 include ':app'
+include ':model'
+include ':core'
+include ':repository'
+include ':history'

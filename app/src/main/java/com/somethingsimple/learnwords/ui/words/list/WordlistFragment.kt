@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.somethingsimple.core.BaseFragment
 import com.somethingsimple.learnwords.R
-import com.somethingsimple.learnwords.data.WordlistState
-import com.somethingsimple.learnwords.data.vo.Word
 import com.somethingsimple.learnwords.databinding.FragmentWordlistBinding
-import com.somethingsimple.learnwords.ui.base.BaseFragment
 import com.somethingsimple.learnwords.ui.words.WordsViewModel
+import com.somethingsimple.model.WordlistState
+import com.somethingsimple.model.vo.Word
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -86,7 +86,7 @@ class WordlistFragment : BaseFragment<WordlistState>() {
                     binding?.apply {
                         progressBarHorizontal.visibility = View.VISIBLE
                         progressBarRound.visibility = View.GONE
-                        progressBarHorizontal.progress = appState.progress
+                        progressBarHorizontal.progress = appState.progress!!
                     }
                 } else {
                     binding?.apply {
