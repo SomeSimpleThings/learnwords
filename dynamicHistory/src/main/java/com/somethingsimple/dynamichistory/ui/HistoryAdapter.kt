@@ -1,10 +1,10 @@
-package com.somethingsimple.history.ui
+package com.somethingsimple.dynamichistory.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.somethingsimple.history.databinding.WordItemBinding
+import com.somethingsimple.dynamichistory.databinding.WordItemBinding
 import com.somethingsimple.model.vo.Word
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {

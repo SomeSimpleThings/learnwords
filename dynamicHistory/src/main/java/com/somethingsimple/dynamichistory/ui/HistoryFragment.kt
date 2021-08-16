@@ -1,4 +1,4 @@
-package com.somethingsimple.history.ui
+package com.somethingsimple.dynamichistory.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.somethingsimple.core.BaseFragment
-import com.somethingsimple.history.HistoryViewModel
-import com.somethingsimple.history.databinding.FragmentHistoryBinding
+import com.somethingsimple.dynamichistory.HistoryViewModel
+import com.somethingsimple.dynamichistory.databinding.FragmentHistoryBinding
 import com.somethingsimple.model.WordlistState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -15,11 +15,7 @@ class HistoryFragment : BaseFragment<WordlistState>() {
     var binding: FragmentHistoryBinding? = null
     private var historyAdapter: HistoryAdapter? = null
 
-    val model: HistoryViewModel by viewModel()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+//    val model: HistoryViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,8 +44,8 @@ class HistoryFragment : BaseFragment<WordlistState>() {
                 adapter = historyAdapter
             }
         }
-        model.getData("", false)
-        model.subscribe().observe(viewLifecycleOwner, { renderData(it) })
+//        model.getData("", false)
+//        model.subscribe().observe(viewLifecycleOwner, { renderData(it) })
 
     }
 

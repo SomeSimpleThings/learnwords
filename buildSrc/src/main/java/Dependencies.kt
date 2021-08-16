@@ -20,7 +20,7 @@ object Modules {
     const val repository = ":repository"
 
     //Features
-    const val historyScreen = ":historyScreen"
+//    const val historyScreen = ":historyScreen"
 }
 
 object Versions {
@@ -35,7 +35,9 @@ object Versions {
     const val runner: String = "1.1.3"
     const val espressoCore: String = "3.4.0"
     const val appcompat: String = "1.3.1"
+    const val play: String = "1.8.1"
     const val material: String = "1.4.0"
+    const val nav_version = "2.3.5"
 
 
 }
@@ -43,6 +45,17 @@ object Versions {
 object Design {
     const val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
     const val material = "com.google.android.material:material:${Versions.material}"
+}
+
+object Play {
+    const val core = "com.google.android.play:core-ktx:${Versions.play}"
+}
+
+object Navigation {
+    const val navFragment = "androidx.navigation:navigation-fragment-ktx:${Versions.nav_version}"
+    const val navUi = "androidx.navigation:navigation-ui-ktx:${Versions.nav_version}"
+    const val navDynamic =
+        "androidx.navigation:navigation-dynamic-features-fragment:${Versions.nav_version}"
 }
 
 object TestImpl {

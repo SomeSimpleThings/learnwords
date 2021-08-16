@@ -1,4 +1,4 @@
-package com.somethingsimple.history
+package com.somethingsimple.dynamichistory
 
 import androidx.lifecycle.LiveData
 import com.somethingsimple.core.vm.BaseViewModel
