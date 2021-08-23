@@ -1,8 +1,6 @@
 package com.somethingsimple.learnwords.di
 
 import androidx.room.Room
-import com.somethingsimple.history.HistoryInteractor
-import com.somethingsimple.history.HistoryViewModel
 import com.somethingsimple.learnwords.ui.words.WordsInteractor
 import com.somethingsimple.learnwords.ui.words.WordsViewModel
 import com.somethingsimple.model.vo.Word
@@ -31,12 +29,6 @@ val application = module {
 }
 
 val mainScreen = module {
-    viewModel { WordsViewModel(get()) }
     factory { WordsInteractor(get(named(NAME_REMOTE)), get(named(NAME_LOCAL))) }
+    viewModel { WordsViewModel(get()) }
 }
-
-//val historyScreen = module {
-//    factory { HistoryViewModel(get()) }
-//    factory { HistoryInteractor(get(named(NAME_LOCAL))) }
-//}
-
