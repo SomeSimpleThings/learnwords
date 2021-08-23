@@ -1,6 +1,11 @@
 package com.somethingsimple.learnwords
 
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -49,6 +54,23 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.container, WordlistFragment.newInstance())
             .commit()
         checkForUpdates()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        menu?.findItem(R.id.network)?.isVisible =
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.network -> {
+                startActivityForResult(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY), 42)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun startHistoryScreen() {
