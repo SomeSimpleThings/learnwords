@@ -1,4 +1,4 @@
-package com.somethingsimple.history
+package com.somethingsimple.dynamichistory
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.somethingsimple.history.test", appContext.packageName)
+        assertEquals("com.somethingsimple.dynamichistory", appContext.packageName)
     }
 }

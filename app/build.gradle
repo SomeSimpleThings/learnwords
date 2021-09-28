@@ -34,13 +34,14 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    dynamicFeatures = [':dynamicHistory']
 }
 
 dependencies {
     implementation project(Modules.model)
     implementation project(Modules.core)
     implementation project(Modules.repository)
-    implementation project(path: ':history')
+//    implementation project(path: ':history')
 
 
     //retrofit
@@ -65,6 +66,11 @@ dependencies {
 
     implementation Design.appcompat
     implementation Design.material
+    implementation Play.core
+
+    api Navigation.navFragment
+    api Navigation.navUi
+    api Navigation.navDynamic
 
     testImplementation TestImpl.junit
     androidTestImplementation TestImpl.runner

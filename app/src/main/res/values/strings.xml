@@ -6,4 +6,5 @@
     <string name="reload_button">reload</string>
     <string name="empty_server_response_on_success">No responce</string>
     <string name="undefined_error">Undef error</string>
+    <string name="title_dynamichistory">History dynamic</string>
 </resources>

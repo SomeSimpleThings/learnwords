@@ -1,4 +1,4 @@
-package com.somethingsimple.history
+package com.somethingsimple.dynamichistory
 
 import com.somethingsimple.core.Interactor
 import com.somethingsimple.model.WordlistState
